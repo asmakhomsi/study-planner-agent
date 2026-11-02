@@ -44,7 +44,7 @@ Same code, only env vars changed. The API reports the quota under `gemini-3.6-fl
   6/6 PASS. (Run 1's trace was overwritten by run 2; the run-1 output is only recorded here.)
 - replan: a self-correction without a traceback. Step 6 the script ran but returned no blocks (everything in
   shortfall); step 8 the model printed the busy events to debug (they came out timezone-aware, `+01:00`); step 10
-  fixed, plan proposed. Human answered "no: keep Friday free", the plan was voided, step 15 recomputed with
+  fixed, plan proposed. The scripted answer "no: keep Friday free" voided the plan, step 15 recomputed with
   run_python. Then **429: free-tier limit of 20 requests/day per model** (also hit the 5/minute limit once; the
   retry got through). The error was logged (`agent error`) thanks to fix 1. Second approval not reached.
   This partial run is kept in `runs_gemini/replan_partial/`.
@@ -68,6 +68,7 @@ last two was added by fix 2 above). Not a git repo yet, so no copy. `runs/` now 
 - normal on `gemini-3.5-flash-lite` (`runs_gemini/normal/trace.jsonl`), **real self-correction**: step 6 `TypeError:
   '>' not supported between instances of 'datetime.date' and 'datetime.datetime'`, step 8 fixed. Then `propose_plan`
   refused the plan at step 10 ("a block starts in the past") and step 14 (six 0.5 h blocks, rule 3). The model fixed
-  its code each time, the plan was accepted at step 18, and the human was only asked once. Checker 6/6 PASS.
+  its code each time, the plan was accepted at step 18, and the approval step was only reached once. Checker 6/6 PASS.
+- All Gemini runs used `--auto`: the approval answers were scripted from `data/scenarios.json`, not typed by a person.
 - All `plan.ics` in `runs_gemini/` and `runs_offline/`: VERSION, PRODID and all event fields present, floating times,
   unique UIDs, checker PASS. Checked with a script; not yet imported into a real calendar.

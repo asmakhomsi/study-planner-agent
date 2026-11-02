@@ -21,7 +21,7 @@ full traces are in `runs_gemini/`.
    has a security note naming both titles. Only reading the final message showed this.
 5. *The self-correction loop worked.* In `runs_gemini/normal/trace.jsonl`, step 6 fails with a `TypeError` comparing a
    `date` and a `datetime`, and step 8 works. Then `propose_plan` refused two plans (a block in the past at step 10,
-   0.5 h blocks at step 14), and the model fixed its code before I was asked to approve anything. In
+   0.5 h blocks at step 14), and the model fixed its code before the approval step was reached. In
    `runs_gemini/replan_partial/`, a script ran without error but returned no blocks, and the model debugged that too.
 6. *Free-tier limits.* The limit of 20 requests a day per model stopped my runs twice, so normal and overloaded used
    `gemini-3.5-flash-lite` and the others `gemini-3.5-flash`.
@@ -34,7 +34,8 @@ block lengths could go past the free time, so I round the available time down. M
 estimates, so I added an unestimated task to the messy scenario.
 
 **Safety.** A prompt can only ask, so the important rules live in code: no delete or email tool exists, `create_events`
-refuses fabricated, reused or old tokens (tested), and the sandbox has no network and no API key.
+refuses fabricated, reused or old tokens (tested), and the sandbox has no network and no API key. The approvals in my
+graded runs were scripted answers (`--auto`); typing the answer uses the same approval code.
 
 **Checking the checker.** A checker that always says PASS is worthless, so for each rule I test a plan that breaks it
 and confirm that it fails.
