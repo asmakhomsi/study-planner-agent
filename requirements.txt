@@ -1,0 +1,7 @@
+openai>=1.40
+icalendar>=5.0
+recurring-ical-events>=2.0
+python-dateutil>=2.8
+pandas
+pytest
+brotlicffi>=1.2  # older versions crash the openai client when reading compressed API replies

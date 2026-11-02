@@ -1,0 +1,16 @@
+All 15 study blocks (totaling 22 hours) have been successfully scheduled and written to `plan.ics`!
+
+### Summary of the Plan
+- **Scheduled Tasks:** 
+  - `CS586 · Quiz 4` (2 hrs)
+  - `MATH210 · Problem set 6` (4 hrs)
+  - `HIST105 · Essay draft` (6 hrs)
+  - `CS586 · M3 project` (10 hrs)
+- **Shortfall:** None (all tasks fully accommodated without exceeding time estimates).
+- **Skipped Past-Due Tasks:** None.
+- **Assumptions & Rules Applied:**
+  - Working window: 9:00 to 21:00, with no work on Sundays (e.g., November 1st and November 8th are completely free of study blocks).
+  - Daily cap: Maximum of 3 hours of study per day.
+  - Block sizes: Strictly 1 to 2 hours per session.
+  - Breaks: 30-minute break enforced between study blocks.
+  - Deadline buffer: Every task is completed at least 24 hours prior to its official deadline.

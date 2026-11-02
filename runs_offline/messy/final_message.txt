@@ -1,0 +1,3 @@
+Done: 17 study blocks written to plan.ics (import it into Google Calendar or Outlook).
+Assumptions I made: MATH210 Problem set 6 appears 2 times: kept one row (the one with an estimate); '11/14/2026' read as month/day/year (US format); '11/14/2026' has no time: assumed due at 23:59; 'Nov 12 5pm' has no year: assumed 2026; '2026-11-18' has no time: assumed due at 23:59; '2026-10-28' has no time: assumed due at 23:59; PHYS150 Problem set 3: no estimate, used default 4 h (type problem set); 'Nov 16' has no time: assumed due at 23:59; 'Nov 16' has no year: assumed 2026.
+Not scheduled: PHYS150 · Lab report was due 2026-10-28T23:59 (already past). Check with your instructor.

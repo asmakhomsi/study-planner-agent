@@ -1,0 +1,5 @@
+Done: 13 study blocks written to plan.ics (import it into Google Calendar or Outlook).
+These do not fit before their deadlines:
+  - CS586 · M3 project: 2 of 10 h missing (due 2026-11-07T23:59)
+  - PHYS150 · Midterm revision: 8 of 8 h missing (due 2026-11-08T09:00)
+Options: start earlier or allow Sundays, raise the 3 h/day cap, lower an estimate, or ask for an extension. Tell me which and I'll re-plan (you'll approve again).

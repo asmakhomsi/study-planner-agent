@@ -1,0 +1,39 @@
+Your study plan has been created and saved to `plan.ics`!
+
+### What Was Scheduled (15 blocks, 22.0 hours total):
+* **CS586 · Quiz 4** (2.0 hours)
+  * Sat 31 Oct: 09:00–11:00 (2.0h)
+* **MATH210 · Problem set 6** (4.0 hours)
+  * Sat 31 Oct: 11:30–12:30 (1.0h)
+  * Mon 02 Nov: 09:00–10:00 (1.0h)
+  * Mon 02 Nov: 12:00–14:00 (2.0h)
+* **HIST105 · Essay draft** (6.0 hours)
+  * Tue 03 Nov: 10:30–12:30 (2.0h)
+  * Tue 03 Nov: 13:00–14:00 (1.0h)
+  * Wed 04 Nov: 09:00–10:00 (1.0h)
+  * Wed 04 Nov: 12:00–14:00 (2.0h)
+* **CS586 · M3 project** (10.0 hours)
+  * Thu 05 Nov: 10:30–12:30 (2.0h)
+  * Thu 05 Nov: 13:00–14:00 (1.0h)
+  * Mon 09 Nov: 09:00–10:00 (1.0h)
+  * Mon 09 Nov: 12:00–14:00 (2.0h)
+  * Tue 10 Nov: 10:30–12:30 (2.0h)
+  * Tue 10 Nov: 13:00–14:00 (1.0h)
+  * Wed 11 Nov: 09:00–10:00 (1.0h)
+
+---
+
+### Assumptions & Rules Applied:
+* **Start Time:** Oct 30, 2026 at 18:00.
+* **Working Window:** 09:00–21:00 daily.
+* **Daily Cap:** Maximum 3 hours of study per day.
+* **Days Off:** Sundays and Fridays kept free (as requested).
+* **24-Hour Buffer:** Every study block completes at least 24 hours before the respective task deadline.
+* **Breaks & Grid:** At least a 30-minute break between study blocks; blocks aligned to a half-hour grid (1.0h to 2.0h per block).
+* **Estimates:** Explicit estimate hours from `deadlines.csv` were used for all tasks.
+
+---
+
+### Status:
+* **Skipped Past-Due Tasks:** None.
+* **Shortfall:** None (0 hours missing; all tasks fully scheduled).

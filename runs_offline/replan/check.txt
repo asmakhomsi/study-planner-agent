@@ -1,0 +1,8 @@
+Checker for 'replan':
+  PASS  rule 1: No overlap with busy.ics
+  PASS  rule 2: Inside 9:00-21:00, not on Fri, Sun
+  PASS  rule 3: Blocks 1-2 h, max 3 h/day
+  PASS  rule 4: Done >= 24 h before each deadline
+  PASS  rule 5: Hours = estimate, or flagged as shortfall
+  PASS  rule 6: No overlaps between blocks; plan.ics valid
+  => ALL RULES PASS

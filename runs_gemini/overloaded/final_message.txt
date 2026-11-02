@@ -1,0 +1,22 @@
+I have generated and saved your study plan to `plan.ics`!
+
+### Summary of Scheduled Work & Assumptions
+- **Scheduled Tasks**: CS586 Quiz 4, MATH210 Problem set 6, HIST105 Essay draft, and part of CS586 M3 project.
+- **Skipped Past-Due Tasks**: None.
+- **Assumptions & Rules Applied**:
+  - Working hours: 09:00 to 21:00 daily (starting from current time 18:00 on Oct 30).
+  - Maximum 3 hours of study per day.
+  - Block sizes: 1 to 2 hours with 30-minute breaks between blocks.
+  - No work on Sundays (Nov 1st is Sunday; also accounted for the all-day wedding event on Nov 7th).
+  - Finished every task at least 24 hours before its deadline.
+  - All tasks had explicit estimates in `deadlines.csv`, so no default estimates were needed.
+
+### Shortfall & Options
+Due to the strict daily cap (3 hours/day), busy calendar conflicts (lectures, work shifts, dentist, and the cousin's wedding on Nov 7), there is a shortfall for:
+1. **CS586 · M3 project**: 2.0 hours missing (8.0 h scheduled out of 10.0 h needed, due Nov 7).
+2. **PHYS150 · Midterm revision**: 8.0 hours missing (0.0 h scheduled out of 8.0 h needed, due Nov 8 at 09:00 — since it must finish 24h prior, by Nov 7 at 09:00, and Nov 7 is an all-day wedding).
+
+**Options to resolve shortfalls:**
+- Relax the daily cap (e.g., increase from 3 hours/day to 4–5 hours/day).
+- Start working earlier or adjust study window limits.
+- Lower task estimates or request assignment extensions.

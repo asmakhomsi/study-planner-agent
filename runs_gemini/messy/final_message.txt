@@ -1,0 +1,55 @@
+### Study Plan Created and Added to Calendar
+
+Your study plan has been successfully written to `plan.ics` (17 blocks, 26 total hours).
+
+---
+
+### Summary of Scheduled Study Blocks
+
+| Day | Time | Hours | Task |
+| :--- | :--- | :--- | :--- |
+| **Fri Oct 30** | 18:00–20:00 | 2.0 h | CS586 · Quiz 4 |
+| **Sat Oct 31** | 09:00–11:00 | 2.0 h | MATH210 · Problem set 6 |
+| **Sat Oct 31** | 11:30–12:30 | 1.0 h | MATH210 · Problem set 6 |
+| **Mon Nov 02** | 09:00–10:00 | 1.0 h | MATH210 · Problem set 6 |
+| **Mon Nov 02** | 12:00–14:00 | 2.0 h | PHYS150 · Problem set 3 |
+| **Tue Nov 03** | 10:30–12:30 | 2.0 h | PHYS150 · Problem set 3 |
+| **Tue Nov 03** | 13:00–14:00 | 1.0 h | HIST105 · Essay draft |
+| **Wed Nov 04** | 09:00–10:00 | 1.0 h | HIST105 · Essay draft |
+| **Wed Nov 04** | 12:00–14:00 | 2.0 h | HIST105 · Essay draft |
+| **Thu Nov 05** | 10:30–12:30 | 2.0 h | HIST105 · Essay draft |
+| **Thu Nov 05** | 13:00–14:00 | 1.0 h | CS586 · M3 project |
+| **Fri Nov 06** | 09:00–11:00 | 2.0 h | CS586 · M3 project |
+| **Fri Nov 06** | 11:30–12:30 | 1.0 h | CS586 · M3 project |
+| **Mon Nov 09** | 09:00–10:00 | 1.0 h | CS586 · M3 project |
+| **Mon Nov 09** | 12:00–14:00 | 2.0 h | CS586 · M3 project |
+| **Tue Nov 10** | 10:30–12:30 | 2.0 h | CS586 · M3 project |
+| **Tue Nov 10** | 13:00–14:00 | 1.0 h | CS586 · M3 project |
+
+---
+
+### Assumptions and Defaults Used
+1. **Current Time Reference:** Start date/time set to Friday, Oct 30, 2026 at 18:00.
+2. **Date Parsing:**
+   - Missing years (e.g. `Nov 12 5pm`, `Nov 16`) assumed current year 2026.
+   - `11/14/2026` parsed as US format `MM/DD/YYYY`.
+   - Dates without explicit times default to `23:59`.
+3. **Task Deduplication & Estimate Defaults:**
+   - Duplicate entry for `MATH210 · Problem set 6` resolved by using the explicit estimate of **4 hours**.
+   - Missing estimate default applied to `PHYS150 · Problem set 3`: **4 hours** (default for problem sets).
+4. **Scheduling Rules:**
+   - Work hours capped strictly between 09:00 and 21:00.
+   - Maximum 3.0 study hours scheduled per day.
+   - Block lengths between 1 and 2 hours on a 30-minute grid with at least 30 minutes break between blocks.
+   - Sundays (Nov 1, Nov 8) and all-day events (Nov 7 Cousin's wedding) excluded.
+   - Every block finishes at least 24 hours prior to its task deadline.
+
+---
+
+### Skipped Past-Due Tasks
+- **PHYS150 · Lab report** (due `2026-10-28 23:59`): Skipped because its deadline was prior to today (`2026-10-30 18:00`).
+
+---
+
+### Shortfall Status
+- **Shortfall:** None (0 hours missing). All upcoming tasks were fully scheduled well before their 24-hour cutoff windows.

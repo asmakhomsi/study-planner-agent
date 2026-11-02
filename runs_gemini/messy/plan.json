@@ -1,0 +1,109 @@
+{
+  "plan_id": "plan_9f191049",
+  "shortfall": [],
+  "notes": "Study plan created based on EDF scheduling with 24-hour deadline buffer, 30-minute breaks between blocks, max 3 hours daily work, working hours 09:00-21:00, and no work on Sundays or all-day busy events. Past-due task PHYS150 Lab report was skipped.",
+  "blocks": [
+    {
+      "title": "CS586 · Quiz 4",
+      "task_key": "cs586|quiz 4",
+      "start": "2026-10-30T18:00",
+      "end": "2026-10-30T20:00"
+    },
+    {
+      "title": "MATH210 · Problem set 6",
+      "task_key": "math210|problem set 6",
+      "start": "2026-10-31T09:00",
+      "end": "2026-10-31T11:00"
+    },
+    {
+      "title": "MATH210 · Problem set 6",
+      "task_key": "math210|problem set 6",
+      "start": "2026-10-31T11:30",
+      "end": "2026-10-31T12:30"
+    },
+    {
+      "title": "MATH210 · Problem set 6",
+      "task_key": "math210|problem set 6",
+      "start": "2026-11-02T09:00",
+      "end": "2026-11-02T10:00"
+    },
+    {
+      "title": "PHYS150 · Problem set 3",
+      "task_key": "phys150|problem set 3",
+      "start": "2026-11-02T12:00",
+      "end": "2026-11-02T14:00"
+    },
+    {
+      "title": "PHYS150 · Problem set 3",
+      "task_key": "phys150|problem set 3",
+      "start": "2026-11-03T10:30",
+      "end": "2026-11-03T12:30"
+    },
+    {
+      "title": "HIST105 · Essay draft",
+      "task_key": "hist105|essay draft",
+      "start": "2026-11-03T13:00",
+      "end": "2026-11-03T14:00"
+    },
+    {
+      "title": "HIST105 · Essay draft",
+      "task_key": "hist105|essay draft",
+      "start": "2026-11-04T09:00",
+      "end": "2026-11-04T10:00"
+    },
+    {
+      "title": "HIST105 · Essay draft",
+      "task_key": "hist105|essay draft",
+      "start": "2026-11-04T12:00",
+      "end": "2026-11-04T14:00"
+    },
+    {
+      "title": "HIST105 · Essay draft",
+      "task_key": "hist105|essay draft",
+      "start": "2026-11-05T10:30",
+      "end": "2026-11-05T12:30"
+    },
+    {
+      "title": "CS586 · M3 project",
+      "task_key": "cs586|m3 project",
+      "start": "2026-11-05T13:00",
+      "end": "2026-11-05T14:00"
+    },
+    {
+      "title": "CS586 · M3 project",
+      "task_key": "cs586|m3 project",
+      "start": "2026-11-06T09:00",
+      "end": "2026-11-06T11:00"
+    },
+    {
+      "title": "CS586 · M3 project",
+      "task_key": "cs586|m3 project",
+      "start": "2026-11-06T11:30",
+      "end": "2026-11-06T12:30"
+    },
+    {
+      "title": "CS586 · M3 project",
+      "task_key": "cs586|m3 project",
+      "start": "2026-11-09T09:00",
+      "end": "2026-11-09T10:00"
+    },
+    {
+      "title": "CS586 · M3 project",
+      "task_key": "cs586|m3 project",
+      "start": "2026-11-09T12:00",
+      "end": "2026-11-09T14:00"
+    },
+    {
+      "title": "CS586 · M3 project",
+      "task_key": "cs586|m3 project",
+      "start": "2026-11-10T10:30",
+      "end": "2026-11-10T12:30"
+    },
+    {
+      "title": "CS586 · M3 project",
+      "task_key": "cs586|m3 project",
+      "start": "2026-11-10T13:00",
+      "end": "2026-11-10T14:00"
+    }
+  ]
+}
