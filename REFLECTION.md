@@ -11,7 +11,7 @@ full traces are in `runs_gemini/`.
    uncaught exception killed the whole batch, so replan never ran. Now an error is logged to the trace and the next
    scenario still runs, and 4xx errors other than 429 are not retried.
 2. *I lost my DeepSeek traces.* A rerun without credit overwrote `runs/`, because each run truncated the trace and
-   deleted older results. Only the console log survives (`deepseek_console_2026-11-01.txt`), so I reran everything on
+   deleted older results. Those traces are gone, so I reran everything on
    Gemini's free tier. Runs now move older results to `_previous/`, with a test. I should have started git before
    running anything expensive.
 3. *Changing provider broke the adapter.* Gemini returned 400 "missing a thought_signature", because my adapter dropped
@@ -40,6 +40,6 @@ graded runs were scripted answers (`--auto`); typing the answer uses the same ap
 **Checking the checker.** A checker that always says PASS is worthless, so for each rule I test a plan that breaks it
 and confirm that it fails.
 
-**Limits and next steps.** The runs differ by model and the DeepSeek evidence is only a console log, so I can't compare
-models fairly. The sandbox is a subprocess with limits, not a container; I would use Docker with `--network none`. I
+**Limits and next steps.** The runs differ by model and the DeepSeek traces are gone, so I can't compare models
+fairly. The sandbox is a subprocess with limits, not a container; I would use Docker with `--network none`. I
 would also spread the load instead of front-loading the earliest free days.

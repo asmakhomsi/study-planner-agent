@@ -9,8 +9,8 @@
 
 ## First real run: `python run.py --all --auto --llm deepseek` (model `deepseek-flash`, 2026-11-01)
 - normal, messy, overloaded: plan written, checker 6/6 PASS, approval before `create_events` every time.
-- Real self-correction in overloaded (trace since lost, see "Lost DeepSeek traces" below; visible in
-  `deepseek_console_2026-11-01.txt`): the first script ran but the model judged the packing wrong and rewrote it; the
+- Real self-correction in overloaded (trace since lost, see "Lost DeepSeek traces" below; seen in the terminal
+  output, which is not in this repo): the first script ran but the model judged the packing wrong and rewrote it; the
   rewrite failed with `TypeError: datetime + float` (`end + LEAD > t['due'] + EPS`); the next version worked, plan accepted.
 - injection: three failing `run_python` in a row, each a different bug, each fixed in the next attempt
   (`ValueError: unparsed due: 2026-11-20 23:59:00`, `timedelta - int`, tuple unpacking). Then the 4th LLM call got
@@ -56,8 +56,7 @@ Same code, only env vars changed. The API reports the quota under `gemini-3.6-fl
 scenarios failed with 402, and each one replaced its results in `runs/`: `trace.jsonl` is truncated when a run starts,
 and the start-of-run cleanup deleted `plan.ics`, `plan.json`, `check.txt` and `final_message.txt` (the cleanup of the
 last two was added by fix 2 above). Not a git repo yet, so no copy. `runs/` now holds only 2-line 402 traces.
-- What survives from the DeepSeek run: `deepseek_console_2026-11-01.txt`, the terminal output saved verbatim except for local
-  folder paths, replaced for privacy (plan tables, checker results, tracebacks, final messages). It is a console log, not a `trace.jsonl`, and has no generated code.
+- The DeepSeek results above come from my terminal output, which I chose not to publish in this repo.
 - Fix: `run.py` now moves older results to `<out>/_previous/<scenario>_<timestamp>/` instead of deleting them.
   Test: `test_a_new_run_archives_the_previous_results_instead_of_destroying_them`.
 

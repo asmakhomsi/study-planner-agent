@@ -38,20 +38,19 @@ on each event, with floating local times like `busy.ics`, so it should import in
 | Folder | What it is |
 |---|---|
 | `runs_gemini/` | **Real model runs, the ones to grade.** `_previous/` holds an earlier run that hit the rate limit. `replan_partial/` is a run stopped by the daily limit, kept because it shows the model debugging an empty plan. |
-| `deepseek_console_2026-11-01.txt` | Terminal output of the real DeepSeek run (`deepseek-flash`): normal, messy and overloaded PASS 6/6, with a real `TypeError` → fix in overloaded. Injection stopped when the credit ran out, and replan never ran. |
 | `runs_offline/` | Deterministic replay with the scripted LLM, used by the tests. Not a real model. |
 | `runs/` | Only the 2-line 402 error traces from a rerun with no credit. |
 
 **Why not DeepSeek for everything?** The brief's model is DeepSeek, but my credit ran out and I could not top it up. A
-later rerun with no credit then overwrote the original DeepSeek traces in `runs/`, so only the console log remains. I
+later rerun with no credit then overwrote the original DeepSeek traces in `runs/`, so they are not in this repo. I
 reran all five scenarios on Gemini's free tier, through its OpenAI-compatible endpoint. Only environment variables
 select the provider. The adapter did need one fix for Gemini (see `FIXLOG.md`). Two models were used because the free
 tier allows 20 requests a day per model. `gemini-3.5-flash` is the name I requested; the API's quota errors report it
 as `gemini-3.6-flash`. The traces do not record the model name, so the table comes from the commands I ran.
 
 `FIXLOG.md` lists each problem found and each fix, and `REFLECTION.md` is the one-page reflection. Local folder paths in
-`deepseek_console_2026-11-01.txt` and in the two offline traces with a traceback were replaced with `<project>`,
-`<python>` or `<home>` for privacy; nothing else in those files was changed.
+the two offline traces with a traceback were replaced with `<python>` for privacy; nothing else in those files was
+changed.
 
 ## Run it
 
