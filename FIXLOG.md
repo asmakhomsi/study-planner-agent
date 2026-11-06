@@ -71,3 +71,57 @@ last two was added by fix 2 above). Not a git repo yet, so no copy. `runs/` now 
 - All Gemini runs used `--auto`: the approval answers were scripted from `data/scenarios.json`, not typed by a person.
 - All `plan.ics` in `runs_gemini/` and `runs_offline/`: VERSION, PRODID and all event fields present, floating times,
   unique UIDs, checker PASS. Checked with a script; not yet imported into a real calendar.
+
+## Brief v2: two LLMs, one switch (2026-11-06)
+- `planner/llm.py`: `DeepSeekLLM` (configured by `DEEPSEEK_*` variables) replaced by `LiveLLM`. One `LLMS` table holds
+  the only differences between models (URL, key variable, model name, optional pacing). `LLM=a|b|c` picks one; the
+  temperature (0.0), prompts and tools are the same for all. The Gemini `thought_signature` passthrough is kept.
+- Retries: 429, 5xx and network errors are retried up to 6 attempts (2, 4, 8, 16, 32 s, or `Retry-After`); a
+  `Retry-After` over 120 s means a daily limit, so it fails at once. Other 4xx still fail at once. The OpenAI SDK's own
+  silent retries are switched off (`max_retries=0`) so every retry is counted. Each reply reports `retries` and
+  `wait_seconds` (back-off plus pacing). Gemini Flash-Lite is paced to one call per 6.5 s (10 requests/min).
+- `.env` is loaded only by `run.py --llm real` and `smoke_test.py`, never on import, so the tests can't pick up real keys.
+- `run.py --llm offline|real` (`deepseek` kept as an alias for `real`).
+- `smoke_test.py`: one `add(a, b)` tool; PASS only for a real `tool_calls` entry with integers 17 and 25.
+- Tests: the switch for a, b, c; clear errors naming the missing variable (never a value); 429/503 retried and
+  counted; Retry-After honoured; daily limit and 402 not retried; Gemini pacing; smoke-test PASS/FAIL cases.
+
+## First smoke test (2026-11-06, `smoke/smoke_results.json`)
+- a DeepSeek `deepseek-v4-flash`: **FAIL, HTTP 402 Insufficient Balance**. The key was accepted (not 401), but the
+  console showed a balance of 0 and no signup grant. b Gemini `gemini-3.5-flash-lite`: PASS, `add(17, 25)`, 1.20 s,
+  88 tokens. c Groq `openai/gpt-oss-120b`: PASS, `add(17, 25)`, 0.67 s, 186 tokens.
+- Fix: model A is now `nvidia/nemotron-3-ultra-550b-a55b:free` through OpenRouter (key `OPENROUTER_KEY`), a different
+  family from Gemini. Chosen from OpenRouter's public model list, which shows tools and `tool_choice` support. Paced at
+  3.5 s per call (20 requests/min); the daily limit is reported as 50 requests on the free plan. `cohere/north-mini-code:free`
+  added as `d`, a backup for A that is only smoke-tested. Only the `LLMS` table changed.
+- Second smoke test (`python smoke_test.py a d`): a Nemotron 3 Ultra PASS, `add(17, 25)`, 2.15 s, 394 tokens;
+  d Cohere North Mini Code PASS, `add(17, 25)`, 1.18 s, 142 tokens. The table's model column now fits long names.
+
+## Comparable traces and repeated runs (2026-11-06)
+- Every `trace.jsonl` now starts with a `run` line (llm_key, provider, model, temperature, scenario, run_index, start
+  time, git commit) and ends with a `summary` line (LLM calls, tokens in/out, seconds, back-off wait, retries, 429s,
+  tool and `run_python` calls and failures, approvals, plan written, checker result, error). Each LLM-call line also
+  has `retries`, `rate_limited` and `wait_seconds`, so speed can be shown with and without waiting.
+- `run.py --repeat N` writes `results/<llm_key>/<scenario>/run<k>/`, in the order normal, messy, injection, overloaded,
+  replan. `--skip-done` skips runs whose summary has no error; a run that died is redone and its old files move to
+  `results/<llm_key>/_previous/`, so 429/402 failures stay as data.
+- A 402, or a 429 that says "per day"/"daily" or asks to wait over 120 s, raises `QuotaExhausted`, and the batch stops
+  at once with a message instead of failing every remaining run.
+- Tests: run and summary lines; results layout; skip-done resumes only unfinished runs and keeps the failed trace;
+  the batch stops on the quota; scenario order; 429s counted apart from other retries. Checked once with the real
+  command offline (`--repeat 2`, then `--skip-done`: all 10 runs skipped).
+
+## Trial runs, normal x1 per model (2026-11-06, `results/a|b/normal/run1/`)
+- Full smoke test (`python smoke_test.py`): a, b, c, d all PASS with `add(17, 25)`.
+- a Nemotron 3 Ultra: plan written, checker 6/6 PASS. 8 LLM calls, 116K tokens, 366 s (single calls up to 109 s).
+  4 `run_python`, 2 failed and fixed: step 7 `TypeError: can't compare offset-naive and offset-aware datetimes` ->
+  step 9 OK; step 11 `TypeError: tuple indices must be integers or slices, not str` -> step 13 OK.
+  It put two blocks back to back on Fri 30 Oct (18:00-20:00 then 20:00-21:00), ignoring the 30-minute break from the
+  prompt (`break_minutes` in the preferences), while its notes say "30-min breaks between blocks". The six checker
+  rules don't include breaks, so this passes; it's recorded as a behaviour difference, not fixed.
+- b Gemini Flash-Lite: plan written, checker 6/6 PASS. 7 LLM calls, 80K tokens, 42 s (17 s of it is pacing).
+  3 `run_python`, 2 failed and fixed: `SyntaxError` (`datetime(2026, 10, 30, 18:00)`), then
+  `ImportError: cannot import name 'explode' from 'recurring_ical_events'` (a function that doesn't exist) -> OK.
+- No problem in the shared code: no retries, no 429s, approval before every write. Nothing changed after the trial,
+  so these two runs stay as run1 of the batch. Their `git_commit` is the last commit, but the code had uncommitted
+  changes at the time.

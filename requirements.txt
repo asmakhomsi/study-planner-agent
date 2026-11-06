@@ -5,3 +5,4 @@ python-dateutil>=2.8
 pandas
 pytest
 brotlicffi>=1.2  # older versions crash the openai client when reading compressed API replies
+python-dotenv>=1.0  # loads the keys and LLM=a|b|c from .env

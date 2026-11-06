@@ -150,9 +150,10 @@ def test_sandbox_timeout():
 
 
 def test_sandbox_has_no_network_and_no_secrets(monkeypatch):
-    monkeypatch.setenv("DEEPSEEK_API_KEY", "sk-secret")
-    r = run_sandboxed("import os, socket\nprint(os.environ.get('DEEPSEEK_API_KEY'))\nsocket.socket()", {})
-    assert "sk-secret" not in r["stdout"]
+    for name in ("OPENROUTER_KEY", "GEMINI_KEY", "GROQ_KEY"):
+        monkeypatch.setenv(name, f"fake-secret-{name}")
+    r = run_sandboxed("import os, socket\nprint(dict(os.environ))\nsocket.socket()", {})
+    assert "fake-secret" not in r["stdout"]
     assert "network access is disabled" in r["stderr"]
 
 
@@ -203,12 +204,131 @@ def test_checker_on_a_broken_ics_file(tmp_path):
     assert not ok and not results[5]["ok"]
 
 
-# ------------------------------------------------------------------ the DeepSeek adapter (no network)
-def test_deepseek_adapter_runs_a_full_session_with_fake_api_responses(tmp_path, monkeypatch):
-    """Feed the real DeepSeekLLM class OpenAI-format responses, to check the message plumbing end to end."""
+# ------------------------------------------------------------------ the live LLM adapter (no network)
+def fake_client(completions):
+    """An object shaped like OpenAI(): client.chat.completions.create(...)."""
+    return type("C", (), {"chat": type("Ch", (), {"completions": completions})()})()
+
+
+def completion(content=None, tool_calls=None, usage=None):
+    from openai.types.chat import ChatCompletion
+    return ChatCompletion.model_validate({
+        "id": "x", "object": "chat.completion", "created": 0, "model": "m",
+        "choices": [{"index": 0, "finish_reason": "tool_calls" if tool_calls else "stop",
+                     "message": {"role": "assistant", "content": content, "tool_calls": tool_calls}}],
+        **({"usage": usage} if usage else {})})
+
+
+class ApiError(Exception):
+    """Like openai.APIStatusError: has status_code and response.headers."""
+
+    def __init__(self, status, retry_after=None):
+        super().__init__(f"Error code: {status}")
+        self.status_code = status
+        self.response = type("R", (), {"headers": {"retry-after": retry_after} if retry_after else {}})()
+
+
+@pytest.mark.parametrize("key,url,key_env,model", [
+    ("a", "https://openrouter.ai/api/v1", "OPENROUTER_KEY", "nvidia/nemotron-3-ultra-550b-a55b:free"),
+    ("b", "https://generativelanguage.googleapis.com/v1beta/openai/", "GEMINI_KEY", "gemini-3.5-flash-lite"),
+    ("c", "https://api.groq.com/openai/v1", "GROQ_KEY", "openai/gpt-oss-120b"),
+    ("d", "https://openrouter.ai/api/v1", "OPENROUTER_KEY", "cohere/north-mini-code:free"),
+])
+def test_the_llm_setting_alone_picks_url_key_and_model(monkeypatch, key, url, key_env, model):
+    from planner.llm import TEMPERATURE, LiveLLM
+    monkeypatch.setenv("LLM", key)
+    monkeypatch.setenv(key_env, "test-value")
+    llm = LiveLLM()                                   # no argument: it reads LLM from the environment
+    assert (llm.llm_key, llm.model, llm.cfg["key_env"], llm.temperature) == (key, model, key_env, TEMPERATURE)
+    assert str(llm.client.base_url).rstrip("/") == url.rstrip("/") and llm.client.max_retries == 0
+
+
+def test_missing_llm_or_key_gives_a_clear_error_without_the_value(monkeypatch):
+    from planner.llm import LiveLLM
+    monkeypatch.delenv("LLM", raising=False)
+    with pytest.raises(RuntimeError, match="Set the LLM environment variable"):
+        LiveLLM()
+    monkeypatch.setenv("LLM", "z")
+    with pytest.raises(RuntimeError, match="not in LLMS"):
+        LiveLLM()
+    monkeypatch.setenv("LLM", "b")
+    monkeypatch.delenv("GEMINI_KEY", raising=False)
+    monkeypatch.setenv("OPENROUTER_KEY", "fake-value-should-never-appear")
+    with pytest.raises(RuntimeError, match="GEMINI_KEY") as err:
+        LiveLLM()
+    assert "fake-value-should-never-appear" not in str(err.value)
+
+
+def test_a_429_is_retried_with_backoff_and_counted(monkeypatch):
+    from planner.llm import LiveLLM
+    monkeypatch.setenv("GROQ_KEY", "test")
+    errors = [ApiError(429), ApiError(503), ApiError(429, retry_after="7")]
+    sleeps = []
+
+    class Flaky:
+        def create(self, **kw):
+            if errors:
+                raise errors.pop(0)
+            return completion(content="ok")
+
+    llm = LiveLLM("c", client=fake_client(Flaky()), sleep=sleeps.append)
+    reply = llm.chat([{"role": "user", "content": "hi"}], [])
+    assert reply["content"] == "ok" and reply["retries"] == 3
+    assert sleeps == [2, 4, 7.0] and reply["wait_seconds"] == 13      # 2 s, 4 s, then Retry-After: 7
+    assert llm.retries_total == 3
+
+
+def test_a_daily_limit_or_too_many_429s_stops_instead_of_waiting(monkeypatch):
+    from planner.llm import MAX_ATTEMPTS, LiveLLM, QuotaExhausted
+    monkeypatch.setenv("GROQ_KEY", "test")
+    calls = []
+
+    class Always429:
+        def __init__(self, retry_after=None, text=None):
+            self.retry_after, self.text = retry_after, text
+
+        def create(self, **kw):
+            calls.append(1)
+            e = ApiError(429, self.retry_after)
+            if self.text:
+                e.args = (self.text,)
+            raise e
+
+    with pytest.raises(QuotaExhausted):               # Retry-After of hours = daily quota: fail on the first call
+        LiveLLM("c", client=fake_client(Always429("50000")), sleep=lambda s: None).chat([], [])
+    assert len(calls) == 1
+    calls.clear()
+    with pytest.raises(QuotaExhausted):               # the provider says so in words (OpenRouter, Gemini)
+        LiveLLM("c", client=fake_client(Always429(text="Rate limit exceeded: free-models-per-day")),
+                sleep=lambda s: None).chat([], [])
+    assert len(calls) == 1
+    calls.clear()
+    with pytest.raises(ApiError):
+        LiveLLM("c", client=fake_client(Always429()), sleep=lambda s: None).chat([], [])
+    assert len(calls) == MAX_ATTEMPTS
+
+
+def test_gemini_calls_are_paced_to_stay_under_the_per_minute_limit(monkeypatch):
+    from planner.llm import LiveLLM
+    monkeypatch.setenv("GEMINI_KEY", "test")
+    now, sleeps = [100.0], []
+
+    class Ok:
+        def create(self, **kw):
+            now[0] += 1.0                             # each call takes 1 s
+            return completion(content="ok")
+
+    llm = LiveLLM("b", client=fake_client(Ok()), sleep=lambda s: (sleeps.append(s), now.__setitem__(0, now[0] + s)),
+                  clock=lambda: now[0])
+    first, second = llm.chat([], []), llm.chat([], [])
+    assert first["wait_seconds"] == 0 and sleeps == [5.5] and second["wait_seconds"] == 5.5
+
+
+def test_live_adapter_runs_a_full_session_with_fake_api_responses(tmp_path, monkeypatch):
+    """Feed the real LiveLLM class OpenAI-format responses, to check the message plumbing end to end."""
     from openai.types.chat import ChatCompletion
     from planner.agent import Approver, run_agent
-    from planner.llm import DeepSeekLLM, ScriptedLLM
+    from planner.llm import LiveLLM, ScriptedLLM
     from planner.trace import Trace
 
     script = ScriptedLLM(PREFS)
@@ -225,18 +345,17 @@ def test_deepseek_adapter_runs_a_full_session_with_fake_api_responses(tmp_path, 
                                                          "function": {"name": c["name"], "arguments": c["arguments"]}}
                                                         for c in r["tool_calls"]] or None}}]})
 
-    monkeypatch.setenv("DEEPSEEK_API_KEY", "test")
-    llm = DeepSeekLLM()
-    llm.client = type("C", (), {"chat": type("Ch", (), {"completions": FakeCompletions()})()})()
+    monkeypatch.setenv("GROQ_KEY", "test")
+    llm = LiveLLM("c", client=fake_client(FakeCompletions()))
     t = tools_for("messy", tmp_path)
     final = run_agent(llm, t, CFG["base_message"], Approver(["yes"], show=lambda *a: None),
                       Trace(tmp_path / "trace.jsonl"), echo=lambda *a: None)
     assert "Done:" in final and (tmp_path / "plan.ics").exists()
 
 
-def test_deepseek_adapter_does_not_retry_an_out_of_credit_error(monkeypatch):
+def test_live_adapter_does_not_retry_an_out_of_credit_error(monkeypatch):
     """A 402 (insufficient balance) can't succeed on retry: raise at once instead of waiting and retrying."""
-    from planner.llm import DeepSeekLLM
+    from planner.llm import LiveLLM, QuotaExhausted
 
     class OutOfCredit(Exception):
         status_code = 402
@@ -248,10 +367,9 @@ def test_deepseek_adapter_does_not_retry_an_out_of_credit_error(monkeypatch):
             calls.append(1)
             raise OutOfCredit("Insufficient Balance")
 
-    monkeypatch.setenv("DEEPSEEK_API_KEY", "test")
-    llm = DeepSeekLLM()
-    llm.client = type("C", (), {"chat": type("Ch", (), {"completions": FakeCompletions()})()})()
-    with pytest.raises(OutOfCredit):
+    monkeypatch.setenv("GROQ_KEY", "test")
+    llm = LiveLLM("c", client=fake_client(FakeCompletions()), sleep=lambda s: None)
+    with pytest.raises(QuotaExhausted, match="402"):
         llm.chat([{"role": "user", "content": "hi"}], [])
     assert len(calls) == 1
 
@@ -275,16 +393,17 @@ def test_an_api_error_is_logged_and_does_not_leave_old_results(tmp_path, monkeyp
     out = tmp_path / "injection"
     assert not r["created"] and r["all_ok"] is None and not (out / "check.txt").exists()
     assert "402" in (out / "final_message.txt").read_text(encoding="utf-8")
-    last = read_trace(out / "trace.jsonl")[-1]
-    assert last["name"] == "error" and not last["ok"]
+    rows = read_trace(out / "trace.jsonl")
+    assert [r["name"] for r in rows if r["kind"] == "agent"] == ["error"]
+    assert rows[-1]["kind"] == "summary" and "402" in rows[-1]["error"] and not rows[-1]["ok"]
 
 
-def test_deepseek_adapter_sends_back_gemini_thought_signatures(tmp_path, monkeypatch):
+def test_live_adapter_sends_back_gemini_thought_signatures(tmp_path, monkeypatch):
     """Gemini (OpenAI-compatible endpoint) puts a thought_signature on each tool call and rejects the next
     request with 400 if it is not sent back. The adapter must return those extra fields unchanged."""
     from openai.types.chat import ChatCompletion
     from planner.agent import Approver, run_agent
-    from planner.llm import DeepSeekLLM
+    from planner.llm import LiveLLM
     from planner.trace import Trace
 
     sig = {"extra_content": {"google": {"thought_signature": "abc123"}}}
@@ -300,9 +419,8 @@ def test_deepseek_adapter_sends_back_gemini_thought_signatures(tmp_path, monkeyp
                 "choices": [{"index": 0, "finish_reason": "stop",
                              "message": {"role": "assistant", "content": "ok", "tool_calls": tool_calls}}]})
 
-    monkeypatch.setenv("DEEPSEEK_API_KEY", "test")
-    llm = DeepSeekLLM()
-    llm.client = type("C", (), {"chat": type("Ch", (), {"completions": FakeCompletions()})()})()
+    monkeypatch.setenv("GEMINI_KEY", "test")
+    llm = LiveLLM("b", client=fake_client(FakeCompletions()), sleep=lambda s: None)
     run_agent(llm, tools_for("normal", tmp_path), CFG["base_message"], Approver(["yes"], show=lambda *a: None),
               Trace(tmp_path / "trace.jsonl"), echo=lambda *a: None)
     sent_back = next(m for m in seen[1] if m["role"] == "assistant")["tool_calls"][0]
@@ -318,3 +436,128 @@ def test_a_new_run_archives_the_previous_results_instead_of_destroying_them(tmp_
     archived = list((tmp_path / "_previous").glob("normal_*"))
     assert len(archived) == 1 and (archived[0] / "trace.jsonl").read_bytes() == old_trace
     assert (archived[0] / "plan.ics").exists() and (archived[0] / "check.txt").exists()
+
+
+# ------------------------------------------------------------------ smoke test logic (no network)
+def tool_call(name, arguments):
+    return [{"id": "t1", "type": "function", "function": {"name": name, "arguments": arguments}}]
+
+
+@pytest.mark.parametrize("message,ok", [
+    (dict(tool_calls=tool_call("add", '{"a": 17, "b": 25}')), True),
+    (dict(tool_calls=tool_call("add", '{"a": 25, "b": 17}')), True),
+    (dict(content='{"name": "add", "arguments": {"a": 17, "b": 25}}'), False),   # text that LOOKS like a call
+    (dict(content="17 + 25 = 42"), False),
+    (dict(tool_calls=tool_call("sum", '{"a": 17, "b": 25}')), False),
+    (dict(tool_calls=tool_call("add", '{"a": 17, "b": 25')), False),              # broken JSON
+    (dict(tool_calls=tool_call("add", '{"a": "17", "b": "25"}')), False),         # strings, not integers
+    (dict(tool_calls=tool_call("add", '{"a": 17, "b": 26}')), False),
+])
+def test_smoke_judge_needs_a_real_add_tool_call(message, ok):
+    from smoke_test import judge
+    passed, reason = judge(completion(**message).choices[0].message)
+    assert passed is ok and reason
+
+
+def test_smoke_one_reports_pass_skip_and_never_the_key(monkeypatch):
+    from smoke_test import smoke_one
+    seen = {}
+
+    class Ok:
+        def create(self, **kw):
+            seen.update(kw)
+            return completion(tool_calls=tool_call("add", '{"a": 17, "b": 25}'),
+                              usage={"prompt_tokens": 60, "completion_tokens": 9, "total_tokens": 69})
+
+    monkeypatch.setenv("GROQ_KEY", "fake-groq-value")
+    row = smoke_one("c", client=fake_client(Ok()))
+    assert row["result"] == "PASS" and row["total_tokens"] == 69 and row["model"] == "openai/gpt-oss-120b"
+    assert seen["tool_choice"] == "auto" and [t["function"]["name"] for t in seen["tools"]] == ["add"]
+    assert "fake-groq-value" not in json.dumps(row)
+    monkeypatch.delenv("GROQ_KEY")
+    skipped = smoke_one("c")
+    assert skipped["result"] == "SKIP" and "GROQ_KEY" in skipped["reason"]
+
+
+# ------------------------------------------------------------------ comparable traces and repeated runs (offline)
+def test_trace_starts_with_a_run_record_and_ends_with_a_summary(tmp_path):
+    run_scenario("messy", "offline", auto=True, out_root=tmp_path, echo=lambda *a: None)
+    rows = read_trace(tmp_path / "messy" / "trace.jsonl")
+    first, last = rows[0], rows[-1]
+    assert first["kind"] == "run" and first["scenario"] == "messy" and first["llm_key"] == "offline"
+    assert {"provider", "model", "temperature", "run_index", "started", "git_commit"} <= first.keys()
+    assert last["kind"] == "summary" and last["ok"] and last["error"] is None
+    assert last["created"] and last["checker_pass"] and last["approvals"] == 1
+    assert last["run_python_calls"] == 2 and last["run_python_failed"] == 1     # the scripted ValueError -> fix
+    assert last["llm_calls"] == sum(r["kind"] == "llm" for r in rows)
+    llm_rows = [r for r in rows if r["kind"] == "llm"]
+    assert all({"seconds", "retries", "rate_limited", "wait_seconds"} <= r.keys() for r in llm_rows)
+
+
+def test_repeat_writes_results_layout_and_skip_done_resumes_only_unfinished_runs(tmp_path):
+    from run import run_batch
+    quiet = dict(echo=lambda *a: None)
+    reports, stopped = run_batch(["normal"], "offline", repeat=2, skip_done=False, root=tmp_path, **quiet)
+    assert not stopped and [r["run_index"] for r in reports] == [1, 2]
+    for k in (1, 2):
+        d = tmp_path / "offline" / "normal" / f"run{k}"
+        assert {"trace.jsonl", "plan.ics", "plan.json", "final_message.txt", "check.txt"} <= {p.name for p in d.iterdir()}
+        assert read_trace(d / "trace.jsonl")[0]["run_index"] == k
+
+    assert run_batch(["normal"], "offline", repeat=2, skip_done=True, root=tmp_path, **quiet)[0] == []
+
+    died = tmp_path / "offline" / "normal" / "run2" / "trace.jsonl"     # run2 "died": no summary line
+    died.write_text("\n".join(died.read_text(encoding="utf-8").splitlines()[:-1]) + "\n", encoding="utf-8")
+    reports, _ = run_batch(["normal"], "offline", repeat=2, skip_done=True, root=tmp_path, **quiet)
+    assert [r["run_index"] for r in reports] == [2]
+    kept = list((tmp_path / "offline" / "_previous").glob("normal_run2_*"))
+    assert len(kept) == 1 and (kept[0] / "trace.jsonl").exists()          # the failed trace is kept as data
+
+
+def test_batch_stops_cleanly_when_the_quota_is_gone(tmp_path, monkeypatch):
+    import run
+    from planner.llm import QuotaExhausted
+
+    class NoQuota:
+        def __init__(self, prefs):
+            pass
+
+        def chat(self, messages, tools):
+            raise QuotaExhausted("OpenRouter m: HTTP 429: free-models-per-day", 429)
+
+    monkeypatch.setattr(run, "ScriptedLLM", NoQuota)
+    reports, stopped = run.run_batch(["normal", "messy"], "offline", repeat=3, skip_done=True, root=tmp_path,
+                                     echo=lambda *a: None)
+    assert stopped and len(reports) == 1 and reports[0]["quota_exhausted"]
+    assert not (tmp_path / "offline" / "messy").exists() and not (tmp_path / "offline" / "normal" / "run2").exists()
+    summary = read_trace(tmp_path / "offline" / "normal" / "run1" / "trace.jsonl")[-1]
+    assert summary["kind"] == "summary" and "per-day" in summary["error"]
+
+
+def test_batch_runs_the_required_scenarios_first(tmp_path, monkeypatch):
+    import run
+    seen = []
+
+    def fake_run_scenario(name, *a, **kw):
+        seen.append(name)
+        return {"scenario": name, "run_index": kw["run_index"], "quota_exhausted": False}
+
+    monkeypatch.setattr(run, "run_scenario", fake_run_scenario)
+    run.run_batch(["replan", "overloaded", "injection", "messy", "normal"], "offline", 1, False, tmp_path,
+                  echo=lambda *a: None)
+    assert seen == ["normal", "messy", "injection", "overloaded", "replan"]
+
+
+def test_live_reply_counts_429s_separately_from_other_retries(monkeypatch):
+    from planner.llm import LiveLLM
+    monkeypatch.setenv("GROQ_KEY", "test")
+    errors = [ApiError(429), ApiError(502)]
+
+    class Flaky:
+        def create(self, **kw):
+            if errors:
+                raise errors.pop(0)
+            return completion(content="ok")
+
+    reply = LiveLLM("c", client=fake_client(Flaky()), sleep=lambda s: None).chat([], [])
+    assert reply["retries"] == 2 and reply["rate_limited"] == 1
