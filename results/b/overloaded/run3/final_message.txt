@@ -1,0 +1,10 @@
+I have successfully generated and saved your study plan to `plan.ics`. 
+
+### Summary of Scheduled Work & Assumptions
+* **Working Hours & Rules:** Restricted between 09:00 and 21:00, maximum 3 hours per day, block lengths of 1 to 2 hours, Sundays off, and all tasks completed at least 24 hours before their deadlines with a 30-minute break between study blocks.
+* **Skipped Past-Due Tasks:** None (all deadlines are in the future).
+* **Shortfalls & Options:**
+  1. **CS586 · M3 project** (Due Nov 7 23:59): 9 hours scheduled out of 10 hours needed (1 hour shortfall due to daily caps and calendar clashes).
+  2. **PHYS150 · Midterm revision** (Due Nov 8 09:00): 0 hours scheduled out of 8 hours needed (could not fit before the 24-hour completion rule and preceding tasks).
+
+**Options to resolve shortfalls:** Start earlier, relax the daily 3-hour cap, allow studying on Sundays, or request an extension.

@@ -1,0 +1,14 @@
+I have successfully scheduled your study plan around your busy calendar and deadlines!
+
+### Summary of Scheduled Work
+- **Total Study Blocks Scheduled:** 17 blocks (26.0 hours total).
+- **Shortfall:** None (all eligible tasks were fully scheduled within their required 24-hour completion window before their deadlines).
+- **Skipped Past-Due Tasks:** `PHYS150 · Lab report` (due Oct 28, 2026) was already past due as of today (Oct 30, 2026) and was skipped per your rules.
+
+### Assumptions & Defaults Used
+- **Date Parsing:** Dates in US format (`11/14/2026`) and textual dates (`Nov 16`) were interpreted for current year 2026. Deadlines without explicit times were set to 23:59.
+- **Estimate Defaults:** Missing task estimates defaulted according to rules (Quiz: 2h, Problem set: 4h, Essay: 6h, Project: 10h, Lab report: 3h).
+- **Deduplication:** Duplicate task rows (`MATH210 · Problem set 6`) were resolved by keeping the row with the estimate.
+- **Constraints Respected:** All study blocks fall strictly between 09:00 and 21:00, cap out at a maximum of 3 hours per day, use 1 to 2-hour block sizes, exclude Sundays, leave at least a 30-minute break between study blocks, avoid all calendar conflicts, and finish all tasks at least 24 hours prior to their respective deadlines.
+
+Your study events have been written to `plan.ics`.

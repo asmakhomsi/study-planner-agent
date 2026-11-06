@@ -1,0 +1,16 @@
+I have successfully generated and saved your study plan to `plan.ics`!
+
+### Summary of Scheduled Work
+- **CS586 · Quiz 4** (2h estimated): Scheduled Oct 30 (2h). Completed well before the Nov 12 deadline (24-hour buffer met).
+- **MATH210 · Problem set 6** (4h estimated): Scheduled across Oct 31 (3h) and Nov 2 (1h). Completed before the Nov 14 deadline.
+- **HIST105 · Essay draft** (6h estimated): Scheduled across Nov 2 (2h), Nov 3 (3h), and Nov 4 (1h). Completed before the Nov 18 deadline.
+- **CS586 · M3 project** (10h estimated): Scheduled across Nov 4 (2h), Nov 5 (3h), Nov 6 (3h), and Nov 9 (2h). Completed before the Nov 20 deadline.
+
+### Assumptions & Defaults
+- **Working window:** 9:00 to 21:00 daily.
+- **Daily cap:** Maximum 3 hours per day.
+- **Block sizes:** 1.0 to 2.0 hours (on a 30-minute grid), with 30-minute breaks between blocks.
+- **Sundays off:** No study blocks scheduled on Sundays.
+- **Buffer rule:** All tasks finished at least 24 hours prior to their deadlines.
+- **Estimates:** All task estimates were explicitly provided in `deadlines.csv`.
+- **Shortfall:** None! All tasks fit successfully within your constraints.

@@ -2,44 +2,42 @@
 
 **What I built.** A study planner with five tools (two reads, `run_python`, a side-effect-free `propose_plan`, and one
 write, `create_events`). All scheduling happens in code run in a sandbox, and `plan.ics` is written only with a token
-issued by the user's approval. An independent checker verifies six rules. All five scenarios pass on a real model:
-full traces are in `runs_gemini/`.
+issued by the approval step. An independent checker verifies six rules. For the new brief, one setting (`LLM`) switches
+between two free models from different families: **A** NVIDIA Nemotron 3 Ultra (OpenRouter) and **B** Gemini 3.5
+Flash-Lite. The numbers are in `RESULTS.md`, made by `compare.py` from the traces: both passed 12/12 on the four
+scenarios they both ran; B passed 1 of 3 replan runs, and A has no replan runs because its daily quota ran out.
 
 **What failed with the real models, and what I changed.**
 
-1. *Credit ran out mid-run.* DeepSeek passed normal, messy and overloaded, then returned HTTP 402 during injection. The
-   uncaught exception killed the whole batch, so replan never ran. Now an error is logged to the trace and the next
-   scenario still runs, and 4xx errors other than 429 are not retried.
-2. *I lost my DeepSeek traces.* A rerun without credit overwrote `runs/`, because each run truncated the trace and
-   deleted older results. Those traces are gone, so I reran everything on
-   Gemini's free tier. Runs now move older results to `_previous/`, with a test. I should have started git before
-   running anything expensive.
-3. *Changing provider broke the adapter.* Gemini returned 400 "missing a thought_signature", because my adapter dropped
-   extra fields on tool calls. It now sends them back unchanged, with a test.
-4. *The prompt never asked to flag suspicious titles.* On Gemini's first injection run the titles stayed titles and
-   all rules passed, but the final message did not warn the user. One added line in `SYSTEM_PROMPT` fixed it: the rerun
-   has a security note naming both titles. Only reading the final message showed this.
-5. *The self-correction loop worked.* In `runs_gemini/normal/trace.jsonl`, step 6 fails with a `TypeError` comparing a
-   `date` and a `datetime`, and step 8 works. Then `propose_plan` refused two plans (a block in the past at step 10,
-   0.5 h blocks at step 14), and the model fixed its code before the approval step was reached. In
-   `runs_gemini/replan_partial/`, a script ran without error but returned no blocks, and the model debugged that too.
-6. *Free-tier limits.* The limit of 20 requests a day per model stopped my runs twice, so normal and overloaded used
-   `gemini-3.5-flash-lite` and the others `gemini-3.5-flash`.
+1. *My planned model A had no credit.* DeepSeek's smoke test returned HTTP 402 (balance 0, no signup grant). I picked
+   Nemotron from OpenRouter's free list instead; only the `LLMS` table changed. The smoke test then passed for all four
+   models I tried (a real `add(17, 25)` tool call).
+2. *Free limits shaped the whole plan.* OpenRouter allows about 50 requests a day, which is about 6 runs. On the first
+   day my batch stopped by itself on the daily quota after 5 runs (the stopped run is kept in `results/a/_previous/`)
+   instead of failing every remaining run. It stopped again before replan on the last day, so A has 12 runs, not 15. I retry 429s with back-off, pace calls, and run the 3 required scenarios first.
+3. *Each model repeated its own kind of bug, and fixed it.* A's first script failed with the same `TypeError` (comparing
+   timezone-aware and naive datetimes) in 11 of its 12 runs, and fixed it every time. B's errors varied more: a
+   `SyntaxError`, an `ImportError` for a function that doesn't exist (`recurring_ical_events.explode`, twice), a
+   `NameError`, an `IndexError`. `propose_plan` also refused plans with real mistakes (A: blocks on the all-day
+   wedding; B: half-hour blocks), and both models fixed their code before the approval step.
+4. *B failed 2 of 3 replan runs on a key format.* It wrote task keys with spaces (`cs586 | quiz 4` instead of
+   `cs586|quiz 4`), so the checker matched no block to a task and rules 4 and 5 failed, although the hours were right.
+   I did not fix it during the comparison, because changing the code for one model would make it unfair. The next step
+   is to have `propose_plan` refuse unknown task keys, which would turn this into a fix the model can make itself.
+5. *A ignored a soft rule and said it didn't.* In its first normal run A put two blocks back to back with no 30-minute
+   break, while its notes said "30-min breaks between blocks". Breaks are not one of the six checker rules, so this
+   passes. The lesson: check what the model did, not what it says it did.
 
-**Problems found while building offline.** The first script assumed ISO dates and raised `ValueError` on `11/14/2026`;
-the traceback led to a better parser (scripted replay, `runs_offline/messy/trace.jsonl`). With `dateutil`, a default of
-23:59 turned `Nov 12 5pm` into 17:59, which no rule could catch; only printing the parsed dates showed it. Handling rows
-one by one produced a false note about a default estimate on the duplicate row, so I group duplicates first. Rounding
-block lengths could go past the free time, so I round the available time down. My test data could not exercise default
-estimates, so I added an unestimated task to the messy scenario.
+**Earlier problems (first version).** DeepSeek's credit ran out mid-run, and a rerun then overwrote my traces, so runs
+now move old results to `_previous/` instead of deleting them. Gemini needed its `thought_signature` sent back on each
+tool call. The prompt never asked to flag the injection titles, so one line was added. Offline, a `dateutil` default
+turned `Nov 12 5pm` into 17:59, which no rule could catch, and rounding block lengths up could overrun free time.
 
-**Safety.** A prompt can only ask, so the important rules live in code: no delete or email tool exists, `create_events`
-refuses fabricated, reused or old tokens (tested), and the sandbox has no network and no API key. The approvals in my
-graded runs were scripted answers (`--auto`); typing the answer uses the same approval code.
+**Safety.** The guard is in code, so it came out the same for both models: no delete or email tool exists, and
+`create_events` refuses fabricated, reused or old tokens (tested). There were no writes without approval in any run.
+The approvals in the comparison runs were scripted answers (`--auto`), the same for both models.
 
-**Checking the checker.** A checker that always says PASS is worthless, so for each rule I test a plan that breaks it
-and confirm that it fails.
+**Checking the checker.** For each rule I test a plan that breaks it and confirm that it fails.
 
-**Limits and next steps.** The runs differ by model and the DeepSeek traces are gone, so I can't compare models
-fairly. The sandbox is a subprocess with limits, not a container; I would use Docker with `--network none`. I
-would also spread the load instead of front-loading the earliest free days.
+**Limits.** Three runs per scenario is small, and even at temperature 0 the same scenario took B 5 to 8 LLM calls, so
+small differences may be noise. Local paths in two traces were replaced with `<python>` for privacy.

@@ -1,0 +1,40 @@
+Done! I've created your study plan and written it to `plan.ics` (12 events, 18 hours total).
+
+**What was scheduled (all blocks 1.5h, 3h/day cap respected, 30-min breaks, no Sundays, 24h buffer before each deadline):**
+
+| Day | Time | Task |
+|-----|------|------|
+| Sat 31 Oct | 09:00–10:30 | CS586 · Quiz 4 |
+| Sat 31 Oct | 10:30–12:00 | MATH210 · Problem set 6 |
+| Mon 02 Nov | 12:00–13:30 | MATH210 · Problem set 6 |
+| Mon 02 Nov | 13:30–15:00 | HIST105 · Essay draft |
+| Tue 03 Nov | 10:30–12:00 | HIST105 · Essay draft |
+| Tue 03 Nov | 12:00–13:30 | CS586 · M3 project |
+| Wed 04 Nov | 12:00–13:30 | HIST105 · Essay draft |
+| Wed 04 Nov | 16:00–17:30 | HIST105 · Essay draft |
+| Thu 05 Nov | 10:30–12:00 | CS586 · M3 project |
+| Thu 05 Nov | 12:00–13:30 | PHYS150 · Midterm revision |
+| Fri 06 Nov | 09:00–10:30 | CS586 · M3 project |
+| Fri 06 Nov | 16:00–17:30 | CS586 · M3 project |
+
+**Shortfall (work that couldn't fit before the 24h-before-deadline cutoff):**
+- **CS586 · Quiz 4** – needs 2h, got 1.5h (missing 0.5h) — due 5 Nov 17:00
+- **MATH210 · Problem set 6** – needs 4h, got 3h (missing 1h) — due 6 Nov 23:59
+- **CS586 · M3 project** – needs 10h, got 6h (missing 4h) — due 7 Nov 23:59
+- **PHYS150 · Midterm revision** – needs 8h, got 1.5h (missing 6.5h) — due 8 Nov 09:00
+
+**Assumptions & defaults used:**
+- Working window 09:00–21:00, max 3h/day, blocks 1–2h on half-hour grid, 30-min breaks, no Sundays
+- 24-hour buffer before each deadline
+- ISO date parsing; dates without time → 23:59
+- Missing estimates defaulted: quiz=2h, problem set=4h, essay=6h, project=10h, lab=3h, else 3h
+- All-day events (wedding 7 Nov) block the full day; recurring events expanded through 31 Dec
+- Planning starts 31 Oct (tomorrow)
+
+**Options to cover the shortfall:**
+- Start earlier (before 31 Oct) or relax the 3h/day cap
+- Reduce estimates where possible (e.g., quiz 4 might need only 1.5h)
+- Ask for extensions on the project / midterm revision
+- Use weekend days more aggressively (currently only Sat 31 Oct used; Sun 1 Nov & 8 Nov are off by rule)
+
+The `.ics` file is ready to import into your calendar.

@@ -1,0 +1,42 @@
+Done! I've created **12 study blocks** (18 hours total) in `plan.ics`. Here's the summary:
+
+### Scheduled blocks
+| Day | Time | Hours | Task |
+|-----|------|-------|------|
+| Sat 31 Oct | 09:00–11:00 | 2 | CS586 · Quiz 4 |
+| Sat 31 Oct | 11:30–12:30 | 1 | MATH210 · Problem set 6 |
+| Mon 02 Nov | 09:00–10:00 | 1 | MATH210 · Problem set 6 |
+| Mon 02 Nov | 12:00–14:00 | 2 | MATH210 · Problem set 6 |
+| Tue 03 Nov | 10:30–12:30 | 2 | HIST105 · Essay draft |
+| Tue 03 Nov | 13:00–14:00 | 1 | CS586 · M3 project |
+| Wed 04 Nov | 09:00–10:00 | 1 | HIST105 · Essay draft |
+| Wed 04 Nov | 12:00–14:00 | 2 | HIST105 · Essay draft |
+| Thu 05 Nov | 10:30–11:30 | 1 | HIST105 · Essay draft |
+| Thu 05 Nov | 12:00–14:00 | 2 | CS586 · M3 project |
+| Fri 06 Nov | 09:00–11:00 | 2 | CS586 · M3 project |
+| Fri 06 Nov | 11:30–12:30 | 1 | PHYS150 · Midterm revision |
+
+### Shortfall (could not fit)
+| Task | Needed | Scheduled | Missing | Due (buffer) |
+|------|--------|-----------|---------|--------------|
+| CS586 · M3 project | 10 h | 5 h | **5 h** | 2026-11-06 23:59 |
+| PHYS150 · Midterm revision | 8 h | 1 h | **7 h** | 2026-11-07 09:00 |
+
+### Why the shortfall?
+- **CS586 M3 project** (due Nov 7) must finish by **Nov 6 23:59**. Only 5 h fit before then.
+- **PHYS150 Midterm revision** (due Nov 8 09:00) must finish by **Nov 7 09:00**. Nov 7 is the all-day wedding; Nov 8 is Sunday (blocked). Only 1 h fit on Nov 6.
+
+### Options to cover the missing hours
+1. **Start earlier** (before Oct 31) — adds more days.
+2. **Raise the daily cap** above 3 h/day.
+3. **Reduce estimates** if you think tasks need less time.
+4. **Request extensions** on the two tight deadlines.
+
+### Assumptions & defaults used
+- Working window 09:00–21:00, max 3 h/day, no Sundays, 1–2 h blocks, 30 min break between blocks.
+- Every task ends ≥24 h before its deadline.
+- Date parsing: ISO preferred; missing time → 23:59.
+- Default estimates: quiz 2 h, problem set 4 h, essay 6 h, project 10 h, lab report 3 h, otherwise 3 h.
+- All-day events (cousin's wedding) block the whole day.
+- Earliest-deadline-first scheduling from Oct 31 onward.
+- No flagged rows in the CSV.

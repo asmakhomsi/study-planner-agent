@@ -1,0 +1,44 @@
+Done! I've created **13 study blocks (20 hours total)** in `plan.ics`. Here's the summary:
+
+### ✅ Scheduled
+| Day | Time | Hours | Task |
+|-----|------|-------|------|
+| Fri 30 Oct | 18:00–20:00 | 2 | CS586 · Quiz 4 |
+| Sat 31 Oct | 09:00–11:00 | 2 | MATH210 · Problem set 6 |
+| Sat 31 Oct | 11:30–12:30 | 1 | MATH210 · Problem set 6 |
+| Mon 02 Nov | 09:00–10:00 | 1 | MATH210 · Problem set 6 |
+| Mon 02 Nov | 12:00–14:00 | 2 | HIST105 · Essay draft |
+| Tue 03 Nov | 10:30–12:30 | 2 | HIST105 · Essay draft |
+| Tue 03 Nov | 13:00–14:00 | 1 | HIST105 · Essay draft |
+| Wed 04 Nov | 09:00–10:00 | 1 | HIST105 · Essay draft |
+| Wed 04 Nov | 12:00–14:00 | 2 | CS586 · M3 project |
+| Thu 05 Nov | 10:30–12:30 | 2 | CS586 · M3 project |
+| Thu 05 Nov | 13:00–14:00 | 1 | CS586 · M3 project |
+| Fri 06 Nov | 09:00–11:00 | 2 | CS586 · M3 project |
+| Fri 06 Nov | 11:30–12:30 | 1 | CS586 · M3 project |
+
+### ⚠️ Shortfall (could not fit within rules)
+| Task | Needed | Scheduled | Missing | Due |
+|------|--------|-----------|---------|-----|
+| CS586 · M3 project | 10 h | 8 h | **2 h** | 2026-11-07 23:59 |
+| PHYS150 · Midterm revision | 8 h | 0 h | **8 h** | 2026-11-08 09:00 |
+
+**Why they didn't fit:**
+- **CS586 M3 project**: All days up to the 24-h-before deadline (Nov 6 23:59) hit the 3 h/day cap.
+- **PHYS150 Midterm revision**: Must finish by Nov 7 09:00. Nov 7 is the cousin's wedding (all-day busy), Nov 8 is Sunday, and every earlier day is already at the 3 h/day cap.
+
+### Assumptions & defaults used
+- Work window **09:00–21:00**, max **3 h/day**, blocks **1–2 h** on a half-hour grid
+- **No Sundays**, **24 h buffer** before each deadline, **30 min break** between blocks
+- Date parsing: ISO preferred; missing time → 23:59
+- All estimates came from the CSV (no defaults needed)
+- Cousin's wedding (Nov 7) treated as all-day busy
+- Current time: 2026-10-30 18:00; scheduling started from 18:00 today
+
+### Options to cover the shortfall
+1. **Start earlier** (e.g., begin at 08:00)  
+2. **Raise the daily cap** above 3 h  
+3. **Reduce an estimate** (if you think a task needs less time)  
+4. **Ask for an extension** on the two affected deadlines  
+
+The `.ics` file is ready to import into your calendar.

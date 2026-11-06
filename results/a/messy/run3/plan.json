@@ -1,0 +1,115 @@
+{
+  "plan_id": "plan_665f0b24",
+  "shortfall": [],
+  "notes": "Scheduled 18 study blocks across 10 days (Oct 31 - Nov 11). All tasks fit before their 24-hour-before-deadline cutoffs. Skipped 1 past-due task: PHYS150 · Lab report (due 2026-10-28). Fixed double-booking by mutating free_slots after each block. Assumptions: work window 09:00-21:00, max 3h/day, 1-2h blocks, no Sundays, 30-min breaks, finish 24h before deadline. Default estimates: quiz=2h, problem set=4h, essay=6h, project=10h, lab report=3h. Duplicate MATH210 Problem set 6 kept 4h estimate. Date parsing: ISO, US mm/dd/yyyy, 'Nov 12 5pm'→2026-11-12 17:00, 'Nov 16'→2026-11-16 23:59. All-day events block full day. Timezone-naive local times.",
+  "blocks": [
+    {
+      "title": "CS586 · Quiz 4",
+      "task_key": "cs586|quiz 4",
+      "start": "2026-10-31T09:00",
+      "end": "2026-10-31T11:00"
+    },
+    {
+      "title": "MATH210 · Problem set 6",
+      "task_key": "math210|problem set 6",
+      "start": "2026-10-31T11:30",
+      "end": "2026-10-31T12:30"
+    },
+    {
+      "title": "MATH210 · Problem set 6",
+      "task_key": "math210|problem set 6",
+      "start": "2026-11-02T09:00",
+      "end": "2026-11-02T10:00"
+    },
+    {
+      "title": "MATH210 · Problem set 6",
+      "task_key": "math210|problem set 6",
+      "start": "2026-11-02T12:00",
+      "end": "2026-11-02T14:00"
+    },
+    {
+      "title": "PHYS150 · Problem set 3",
+      "task_key": "phys150|problem set 3",
+      "start": "2026-11-03T10:30",
+      "end": "2026-11-03T12:30"
+    },
+    {
+      "title": "PHYS150 · Problem set 3",
+      "task_key": "phys150|problem set 3",
+      "start": "2026-11-03T13:00",
+      "end": "2026-11-03T14:00"
+    },
+    {
+      "title": "PHYS150 · Problem set 3",
+      "task_key": "phys150|problem set 3",
+      "start": "2026-11-04T09:00",
+      "end": "2026-11-04T10:00"
+    },
+    {
+      "title": "HIST105 · Essay draft",
+      "task_key": "hist105|essay draft",
+      "start": "2026-11-04T12:00",
+      "end": "2026-11-04T14:00"
+    },
+    {
+      "title": "HIST105 · Essay draft",
+      "task_key": "hist105|essay draft",
+      "start": "2026-11-05T10:30",
+      "end": "2026-11-05T12:30"
+    },
+    {
+      "title": "HIST105 · Essay draft",
+      "task_key": "hist105|essay draft",
+      "start": "2026-11-05T13:00",
+      "end": "2026-11-05T14:00"
+    },
+    {
+      "title": "HIST105 · Essay draft",
+      "task_key": "hist105|essay draft",
+      "start": "2026-11-06T09:00",
+      "end": "2026-11-06T10:00"
+    },
+    {
+      "title": "CS586 · M3 project",
+      "task_key": "cs586|m3 project",
+      "start": "2026-11-06T10:30",
+      "end": "2026-11-06T12:30"
+    },
+    {
+      "title": "CS586 · M3 project",
+      "task_key": "cs586|m3 project",
+      "start": "2026-11-09T09:00",
+      "end": "2026-11-09T10:00"
+    },
+    {
+      "title": "CS586 · M3 project",
+      "task_key": "cs586|m3 project",
+      "start": "2026-11-09T12:00",
+      "end": "2026-11-09T14:00"
+    },
+    {
+      "title": "CS586 · M3 project",
+      "task_key": "cs586|m3 project",
+      "start": "2026-11-10T10:30",
+      "end": "2026-11-10T12:30"
+    },
+    {
+      "title": "CS586 · M3 project",
+      "task_key": "cs586|m3 project",
+      "start": "2026-11-10T13:00",
+      "end": "2026-11-10T14:00"
+    },
+    {
+      "title": "CS586 · M3 project",
+      "task_key": "cs586|m3 project",
+      "start": "2026-11-11T09:00",
+      "end": "2026-11-11T10:00"
+    },
+    {
+      "title": "CS586 · M3 project",
+      "task_key": "cs586|m3 project",
+      "start": "2026-11-11T12:00",
+      "end": "2026-11-11T13:00"
+    }
+  ]
+}

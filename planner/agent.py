@@ -99,7 +99,9 @@ def run_agent(llm, tools: StudyTools, user_message: str, approver: Approver, tra
         calls = reply.get("tool_calls") or []
         trace.log("llm", f"step {step}", input=_brief(messages[-1]),
                   output={"content": reply.get("content"), "tool_calls": [c["name"] for c in calls]},
-                  seconds=round(time.time() - t0, 2), usage=reply.get("usage"))
+                  seconds=round(time.time() - t0, 2), usage=reply.get("usage"),
+                  retries=reply.get("retries", 0), rate_limited=reply.get("rate_limited", 0),
+                  wait_seconds=reply.get("wait_seconds", 0.0))   # seconds includes wait_seconds (back-off + pacing)
         if reply.get("content"):
             echo(f"[agent] {reply['content']}")
         msg = {"role": "assistant", "content": reply.get("content") or ""}

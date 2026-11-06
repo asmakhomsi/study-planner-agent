@@ -1,0 +1,22 @@
+Your study plan has been created and saved to `plan.ics` with 17 study blocks (26 hours total).
+
+**Scheduled tasks (all fully fit, no shortfall):**
+- **CS586 · Quiz 4** (2h) – Fri 30 Oct 18:30–20:30
+- **MATH210 · Problem set 6** (4h) – Sat 31 Oct 09:00–11:00, 11:30–12:30; Mon 2 Nov 09:00–10:00
+- **PHYS150 · Problem set 3** (4h) – Mon 2 Nov 12:00–14:00; Tue 3 Nov 10:30–12:30
+- **HIST105 · Essay draft** (6h) – Tue 3 Nov 12:30–13:30; Wed 4 Nov 09:00–10:00, 12:00–14:00; Thu 5 Nov 10:30–12:30
+- **CS586 · M3 project** (10h) – Thu 5 Nov 12:30–13:30; Fri 6 Nov 09:00–11:00, 11:30–12:30; Mon 9 Nov 09:00–10:00, 12:00–14:00; Tue 10 Nov 10:30–12:30, 13:00–14:00
+
+**Skipped (past due):**
+- PHYS150 · Lab report (due 2026-10-28)
+
+**Key assumptions & defaults used:**
+- Work window 09:00–21:00, max 3 h/day, 1–2 h blocks on 30-min grid, 30-min breaks, no Sundays
+- Every task finishes ≥24 h before its deadline
+- Date parsing: ISO, US MM/DD/YYYY, or natural language (e.g., “Nov 12 5pm” → 2026); date-only defaults to 23:59
+- Default estimates: quiz=2h, problem set=4h, essay=6h, project=10h, lab report=3h, otherwise 3h
+- Duplicate rows (same course+task): kept the one with an estimate
+- All-day events (like the Nov 7 wedding) block the entire day
+- Recurring events expanded from `busy.ics`
+
+The `.ics` file is ready to import into your calendar.

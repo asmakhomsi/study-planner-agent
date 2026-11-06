@@ -1,0 +1,17 @@
+I have successfully scheduled your study blocks around your busy calendar and written them to `plan.ics`.
+
+### Summary of Scheduled Plan:
+- **Scheduled Tasks (15 blocks, 22 hours total):**
+  - **CS586 · Quiz 4** (Due Nov 12, finished by Nov 10): 2 hours scheduled on Oct 30.
+  - **MATH210 · Problem set 6** (Due Nov 14, finished by Nov 13): 4 hours scheduled across Oct 31 and Nov 2.
+  - **HIST105 · Essay draft** (Due Nov 18, finished by Nov 17): 6 hours scheduled across Nov 2 – Nov 4.
+  - **CS586 · M3 project** (Due Nov 20, finished by Nov 19): 10 hours scheduled across Nov 4 – Nov 9.
+- **Shortfall:** None! All tasks are fully scheduled.
+- **Skipped Past-Due Tasks:** None.
+- **Assumptions & Rules Applied:**
+  - Working window: 9:00 to 21:00.
+  - Maximum 3 study hours per day.
+  - Block sizes of 1 to 2 hours on a 30-minute grid.
+  - No studying on Sundays (and fully respected the wedding all-day event on Nov 7–8).
+  - Finished every task at least 24 hours before its deadline.
+  - 30-minute break between study blocks.

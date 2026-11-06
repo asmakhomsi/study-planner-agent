@@ -1,0 +1,17 @@
+I have successfully scheduled your study plan and written the events to `plan.ics`. 
+
+### Summary of What Was Scheduled:
+- **CS586 · Quiz 4** (2 hrs)
+- **MATH210 · Problem set 6** (4 hrs)
+- **HIST105 · Essay draft** (6 hrs)
+- **CS586 · M3 project** (10 hrs)
+- **Total Hours Scheduled:** 22.0 hours across 15 blocks with **zero shortfall**.
+
+### Assumptions & Rules Applied:
+- **Working Window:** 9:00 to 21:00.
+- **Daily Cap:** Maximum 3 hours per day.
+- **Days Off:** No work on Sundays and no work on Fridays (keeping Fridays free per your feedback).
+- **Block Durations & Spacing:** 1 to 2-hour blocks on a 30-minute grid with 30-minute breaks between study blocks.
+- **Deadline Buffer:** Every task is fully completed at least 24 hours before its official deadline.
+- **No Overlaps:** Carefully avoided all calendar busy intervals (lectures, work shifts, cousin's wedding, etc.) and overlapping study blocks.
+- **Skipped Past-Due Tasks:** None (all deadlines are in the future).

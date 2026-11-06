@@ -1,0 +1,12 @@
+{
+  "_note": "Free-tier limits per LLM key, used by compare.py for 'est. runs/day'. Numbers marked 'reported, check' come from third-party pages; replace them with what your own console shows, and note the date.",
+  "a": {"provider": "OpenRouter", "model": "nvidia/nemotron-3-ultra-550b-a55b:free",
+        "requests_per_day": 50, "requests_per_minute": 20, "tokens_per_day": null, "grant_tokens": null,
+        "status": "reported 50/day; console shows no number; seen: daily 429 after 52 requests on 2026-11-06"},
+  "b": {"provider": "Google AI Studio", "model": "gemini-3.5-flash-lite",
+        "requests_per_day": 500, "requests_per_minute": 10, "tokens_per_day": null, "grant_tokens": null,
+        "status": "reported 500/day, not checked in AI Studio; seen: 146 requests on 2026-11-06 without a 429"},
+  "c": {"provider": "Groq", "model": "openai/gpt-oss-120b",
+        "requests_per_day": 1000, "requests_per_minute": 30, "tokens_per_minute": 8000, "tokens_per_day": 200000,
+        "grant_tokens": null, "status": "reported, check in the Groq console"}
+}

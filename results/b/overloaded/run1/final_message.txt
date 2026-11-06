@@ -1,0 +1,23 @@
+I have successfully scheduled your study blocks and written them to `plan.ics`. 
+
+### Summary of Scheduled Work
+- **Scheduled Blocks**: 13 blocks totaling 20 hours of study time.
+- **Shortfall**: 
+  - **CS586 · M3 project**: 2.0 hours missing (8.0 h scheduled out of 10.0 h needed due to time/deadline constraints).
+  - **PHYS150 · Midterm revision**: 8.0 hours missing (0.0 h scheduled due to the strict 24-hour completion rule before the Nov 8 09:00 deadline, combined with the Sunday day-off and prior task priorities).
+- **Skipped Past-Due Tasks**: None.
+
+### Assumptions & Rules Applied
+- **Working Window**: 09:00 to 21:00.
+- **Daily Cap**: Maximum 3 hours per day.
+- **Block Size**: 1 to 2 hours on a 30-minute grid.
+- **Days Off**: Sundays (Sunday, Nov 8 is completely free of study blocks).
+- **Finish Window**: Every task is completed at least 24 hours before its deadline.
+- **Breaks**: 30-minute break between study blocks.
+
+### Options for Shortfall Tasks
+If you'd like to fit in the missing hours for **CS586 · M3 project** or **PHYS150 · Midterm revision**, you can:
+1. Start earlier or extend your daily cap beyond 3 hours.
+2. Work on Sundays.
+3. Relax the 24-hour finish rule before deadlines.
+4. Lower the estimated hours for specific tasks or request deadline extensions.

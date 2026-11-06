@@ -14,9 +14,48 @@ deadlines.csv + busy.ics ─► LLM ─► read_deadlines / get_busy ─► LLM 
                            ─► create_events(plan_id, confirm_token) ─► plan.ics      (token only from the human)
 ```
 
-## Results
+## Two LLMs (brief v2)
 
-All five scenarios pass all six checker rules on a real model. Full traces are in `runs_gemini/`.
+The same agent runs on two free models from different families. **One setting picks the model: `LLM`.** Nothing
+else changes: same code, prompts, tools, temperature (0.0) and scripted human answers.
+
+| `LLM` | Provider | Model | Key variable | Role |
+|---|---|---|---|---|
+| `a` | OpenRouter | `nvidia/nemotron-3-ultra-550b-a55b:free` | `OPENROUTER_KEY` | compared model A |
+| `b` | Google AI Studio | `gemini-3.5-flash-lite` | `GEMINI_KEY` | compared model B |
+| `c` | Groq | `openai/gpt-oss-120b` | `GROQ_KEY` | smoke test only (8K tokens/min is too small for a run) |
+| `d` | OpenRouter | `cohere/north-mini-code:free` | `OPENROUTER_KEY` | smoke-tested backup for A |
+
+All four come from the `LLMS` table in `planner/llm.py`, the only place where models differ. Copy `.env.example` to
+`.env` and fill in your keys (`.env` is never committed). DeepSeek was the planned model A, but its smoke test returned
+HTTP 402 (no balance): see `SOURCES.md`.
+
+```powershell
+python smoke_test.py                                    # does each model return a real tool call?
+$env:LLM="a"; python run.py --all --auto --llm real --repeat 3 --skip-done   # 5 scenarios x 3 runs, model A
+$env:LLM="b"; python run.py --all --auto --llm real --repeat 3 --skip-done   # the same for model B
+python compare.py                                       # reads results/, writes RESULTS.md (no API calls)
+```
+
+**Result:** both models passed 12/12 on the four scenarios they both ran; Gemini passed 1 of 3 replan runs, and Nemotron has no replan runs (its daily quota ran out). Gemini was about 4× faster and fits the free tier far better. Full table in `RESULTS.md`, reasoning in `VERDICT.md`.
+
+In bash the switch is `LLM=a python run.py ...`. `--skip-done` resumes after a daily limit without redoing finished
+runs; the batch stops by itself when the free quota is used up.
+
+| File or folder | What it is |
+|---|---|
+| `SOURCES.md` | The free sources I compared: limits, card/phone, data policy, smoke-test result |
+| `smoke/smoke_results.json` | Output of `smoke_test.py` |
+| `results/<llm>/<scenario>/run<k>/` | The comparison runs. Each `trace.jsonl` starts with a `run` line (model, run number, git commit) and ends with a `summary` line |
+| `RESULTS.md`, `results/summary.csv` | The comparison table, made by `compare.py` from the traces and the checker |
+| `free_tier_limits.json` | Free limits used for the runs-per-day estimate |
+| `VERDICT.md` | Which model fits this task better, and why |
+
+## Earlier development runs (Gemini only)
+
+These come from before the two-model comparison: one run per scenario, with `gemini-3.5-flash` and
+`gemini-3.5-flash-lite` mixed. They are development history, not part of the comparison. All five scenarios pass all
+six checker rules. Full traces are in `runs_gemini/`.
 
 | Scenario | Model | Plan | Checker | `run_python` calls | Self-correction | Approval step before writing | Notes |
 |---|---|---|---|---|---|---|---|
@@ -63,21 +102,13 @@ python run.py --all --auto --out runs_offline   # all 5 scenarios offline, scrip
 python run.py --scenario messy --out runs_demo  # offline, YOU approve at the prompt
 
 python checker.py runs_gemini/messy/plan.ics --scenario messy  # check any plan.ics against the six rules
-python -m pytest -q                                            # 34 tests, offline, free
+python -m pytest -q                                            # offline tests, free
 ```
 
-With a real model. Set the key in your terminal and never put it in the code:
+With a real model, after filling in `.env` (keys are read from the environment only, never from the code):
 
 ```powershell
-# DeepSeek
-$env:DEEPSEEK_API_KEY = "<your key>"
-python run.py --scenario messy --llm deepseek --out runs_real
-
-# Gemini free tier: same flag, different URL and model
-$env:DEEPSEEK_API_KEY  = "<your Gemini key>"
-$env:DEEPSEEK_BASE_URL = "https://generativelanguage.googleapis.com/v1beta/openai/"
-$env:DEEPSEEK_MODEL    = "gemini-3.5-flash"
-python run.py --scenario messy --auto --llm deepseek --out runs_real
+$env:LLM="b"; python run.py --scenario messy --llm real --out runs_real   # you type the approval
 ```
 
 `--auto` uses the scripted human answers from `scenarios.json`; without it, you type the approval.

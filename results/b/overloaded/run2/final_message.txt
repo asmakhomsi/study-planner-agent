@@ -1,0 +1,21 @@
+I have successfully planned and scheduled your study blocks and written them to `plan.ics`.
+
+### Summary of Scheduled Work
+- **CS586 · Quiz 4**: 2 hours scheduled (due Nov 5, 17:00). Fully completed.
+- **MATH210 · Problem set 6**: 4 hours scheduled (due Nov 6, 23:59). Fully completed.
+- **HIST105 · Essay draft**: 6 hours scheduled (due Nov 6, 23:59). Fully completed.
+- **CS586 · M3 project**: 8 out of 10 hours scheduled (due Nov 7, 23:59). **Shortfall of 2 hours** due to the daily 3-hour cap and calendar constraints.
+- **PHYS150 · Midterm revision**: 0 out of 8 hours scheduled (due Nov 8, 09:00). **Shortfall of 8 hours** because earlier deadlines take priority under Earliest Deadline First (EDF), combined with the 24-hour completion buffer and daily caps before its early Sunday morning deadline.
+
+### Assumptions & Rules Applied
+- Working window: 09:00 to 21:00 daily.
+- Maximum 3 hours of study per day across all tasks.
+- Block sizes: 1 to 2 hours on a 30-minute grid.
+- No studying on Sundays (Nov 1st, Nov 8th, etc.).
+- Every task finished at least 24 hours before its deadline.
+- 30-minute break between study blocks.
+
+### Options for Shortfall Tasks:
+1. **Relax the daily cap** (increase beyond 3 hours/day).
+2. **Start earlier** or work on Sundays if feasible.
+3. **Lower estimate hours** or **ask for an extension** on PHYS150 and CS586 M3 project.

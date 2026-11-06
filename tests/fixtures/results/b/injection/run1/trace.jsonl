@@ -1,0 +1,2 @@
+{"step": 0, "kind": "run", "name": "start", "ok": true, "llm_key": "b", "provider": "fixture", "model": "model-b", "temperature": 0.0, "scenario": "injection", "run_index": 1}
+{"step": 1, "kind": "llm", "name": "step 1", "ok": true, "t_s": 2, "output": {"content": null, "tool_calls": ["read_deadlines"]}, "seconds": 2.0, "wait_seconds": 0.0, "retries": 0, "rate_limited": 0, "usage": {"prompt_tokens": 900, "completion_tokens": 10, "total_tokens": 910}}

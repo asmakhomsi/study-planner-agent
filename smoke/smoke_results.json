@@ -1,0 +1,50 @@
+{
+  "run_at": "2026-11-06T10:27:59",
+  "prompt": "What is 17 + 25? Use the tool.",
+  "results": [
+    {
+      "key": "a",
+      "provider": "OpenRouter",
+      "model": "nvidia/nemotron-3-ultra-550b-a55b:free",
+      "result": "PASS",
+      "reason": "add(17, 25)",
+      "latency_s": 2.64,
+      "prompt_tokens": 304,
+      "completion_tokens": 87,
+      "total_tokens": 391
+    },
+    {
+      "key": "b",
+      "provider": "Google AI Studio",
+      "model": "gemini-3.5-flash-lite",
+      "result": "PASS",
+      "reason": "add(17, 25)",
+      "latency_s": 0.79,
+      "prompt_tokens": 70,
+      "completion_tokens": 18,
+      "total_tokens": 88
+    },
+    {
+      "key": "c",
+      "provider": "Groq",
+      "model": "openai/gpt-oss-120b",
+      "result": "PASS",
+      "reason": "add(17, 25)",
+      "latency_s": 0.78,
+      "prompt_tokens": 136,
+      "completion_tokens": 50,
+      "total_tokens": 186
+    },
+    {
+      "key": "d",
+      "provider": "OpenRouter",
+      "model": "cohere/north-mini-code:free",
+      "result": "PASS",
+      "reason": "add(17, 25)",
+      "latency_s": 1.28,
+      "prompt_tokens": 47,
+      "completion_tokens": 63,
+      "total_tokens": 110
+    }
+  ]
+}

@@ -1,0 +1,18 @@
+I have successfully planned and scheduled all your study blocks around your busy calendar and constraints, and saved them to `plan.ics`.
+
+### Summary of Scheduled Tasks:
+- **CS586 · Quiz 4** (Due Nov 12, est: 2h) — Scheduled
+- **MATH210 · Problem set 6** (Due Nov 14, est: 4h) — Scheduled
+- **HIST105 · Essay draft** (Due Nov 18, est: 6h) — Scheduled
+- **CS586 · M3 project** (Due Nov 20, est: 10h) — Scheduled
+
+**Shortfall:** None (all tasks fit within the available time before their 24-hour deadline cutoffs).
+**Skipped Past-Due Tasks:** None.
+
+### Assumptions & Rules Applied:
+- Working window: 9:00 to 21:00.
+- Daily cap: Maximum 3 study hours per day.
+- Block sizes: 1 to 2 hours on a half-hour grid with 30-minute breaks between blocks.
+- No studying on Sundays (e.g., Nov 1, Nov 8, etc.).
+- Every task is completed at least 24 hours before its respective deadline.
+- All tasks had explicit estimates in `deadlines.csv`, so no default estimate rules were needed.

@@ -1,0 +1,26 @@
+Your study plan has been created and saved to **plan.ics** (18 blocks, 26 hours total).
+
+**Scheduled blocks:**
+- **Sat 31 Oct**: CS586 Quiz 4 (2h), MATH210 Problem set 6 (1h)
+- **Mon 02 Nov**: MATH210 Problem set 6 (3h total: 1h + 2h)
+- **Tue 03 Nov**: PHYS150 Problem set 3 (3h total: 2h + 1h)
+- **Wed 04 Nov**: PHYS150 Problem set 3 (1h), HIST105 Essay draft (2h)
+- **Thu 05 Nov**: HIST105 Essay draft (3h total: 2h + 1h)
+- **Fri 06 Nov**: HIST105 Essay draft (1h), CS586 M3 project (2h)
+- **Mon 09 Nov**: CS586 M3 project (3h total: 1h + 2h)
+- **Tue 10 Nov**: CS586 M3 project (3h total: 2h + 1h)
+- **Wed 11 Nov**: CS586 M3 project (2h total: 1h + 1h)
+
+**All tasks finish ≥24h before their deadlines.** No shortfall.
+
+**Assumptions & defaults used:**
+- Date parsing: ISO, US MM/DD/YYYY, “Nov 12 5pm” → 2026, date-only → 23:59
+- Default estimates: quiz=2h, problem set=4h, essay=6h, project=10h, lab report=3h, other=3h
+- Duplicate MATH210 Problem set 6 kept the 4h estimate
+- Work window 09:00–21:00, max 3h/day, no Sundays
+- Blocks 1–2h with 30-min breaks between blocks
+- Busy intervals from busy.ics (recurring events expanded, all-day events block full day)
+
+**Skipped (past due):** PHYS150 Lab report (due 2026-10-28) – not scheduled.
+
+The .ics file is ready to import into your calendar.

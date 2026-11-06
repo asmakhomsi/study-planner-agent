@@ -1,0 +1,14 @@
+I have successfully planned and scheduled your study blocks around your calendar and deadlines, ensuring all constraints (9:00–21:00 working window, max 3 hours/day, block sizes of 1–2 hours, no Sundays, 30-minute breaks between blocks, and finishing at least 24 hours before each deadline) were strictly respected.
+
+### Summary of Results:
+- **Scheduled:** 17 study blocks totaling 26.0 hours across your active tasks (`CS586 Quiz 4`, `MATH210 Problem set 6`, `PHYS150 Problem set 3`, `HIST105 Essay draft`, and `CS586 M3 project`).
+- **Shortfall:** None! All tasks fit within your available free time without exceeding the daily cap or missing deadlines.
+- **Skipped Past-Due Tasks:** `PHYS150 · Lab report` (due 2026-10-28) was skipped as it was already past due relative to your start time of October 30, 2026, 18:00.
+- **Assumptions & Defaults Used:**
+  - Dates without a year specified (e.g., `Nov 16`) assume year 2026.
+  - Dates without an explicit time default to 23:59.
+  - US date format (`MM/DD/YYYY`) applied to `MATH210` Problem set 6.
+  - Missing time estimates (`est_hours`) defaulted based on task type: quiz 2h, problem set 4h, essay 6h, project 10h, lab report 3h (otherwise 3h).
+  - Earliest Deadline First (EDD) prioritization.
+
+Your approved study plan has been written to `plan.ics`.

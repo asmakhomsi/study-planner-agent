@@ -1,0 +1,22 @@
+Checker for 'replan':
+  PASS  rule 1: No overlap with busy.ics
+  PASS  rule 2: Inside 9:00-21:00, not on Fri, Sun
+  PASS  rule 3: Blocks 1-2 h, max 3 h/day
+  FAIL  rule 4: Done >= 24 h before each deadline
+          - block 'CS586 · Quiz 4' belongs to no open task (past due or unknown)
+          - block 'MATH210 · Problem set 6' belongs to no open task (past due or unknown)
+          - block 'MATH210 · Problem set 6' belongs to no open task (past due or unknown)
+          - block 'MATH210 · Problem set 6' belongs to no open task (past due or unknown)
+          - block 'HIST105 · Essay draft' belongs to no open task (past due or unknown)
+          - block 'HIST105 · Essay draft' belongs to no open task (past due or unknown)
+          - block 'HIST105 · Essay draft' belongs to no open task (past due or unknown)
+          - block 'HIST105 · Essay draft' belongs to no open task (past due or unknown)
+          - block 'CS586 · M3 project' belongs to no open task (past due or unknown)
+          - block 'CS586 · M3 project' belongs to no open task (past due or unknown)
+  FAIL  rule 5: Hours = estimate, or flagged as shortfall
+          - CS586 · Quiz 4: 0 h scheduled, estimate 2 h, not flagged as shortfall
+          - MATH210 · Problem set 6: 0 h scheduled, estimate 4 h, not flagged as shortfall
+          - HIST105 · Essay draft: 0 h scheduled, estimate 6 h, not flagged as shortfall
+          - CS586 · M3 project: 0 h scheduled, estimate 10 h, not flagged as shortfall
+  PASS  rule 6: No overlaps between blocks; plan.ics valid
+  => SOME RULES FAIL

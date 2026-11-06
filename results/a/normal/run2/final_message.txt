@@ -1,0 +1,21 @@
+Your study plan has been created and saved to `plan.ics` with 16 study blocks (22 hours total).
+
+**What was scheduled:**
+- **CS586 · Quiz 4** (2h): Fri 30 Oct 18:00–20:00
+- **MATH210 · Problem set 6** (4h): Sat 31 Oct 09:00–11:00, Mon 2 Nov 09:00–10:00 & 12:00–13:00
+- **HIST105 · Essay draft** (6h): Sat 31 Oct 11:30–12:30, Mon 2 Nov 13:30–14:30, Tue 3 Nov 10:30–12:30, Wed 4 Nov 09:00–10:00 & 12:00–13:00
+- **CS586 · M3 project** (10h): Tue 3 Nov 13:00–14:00, Wed 4 Nov 13:30–14:30, Thu 5 Nov 10:30–12:30, Fri 6 Nov 09:00–11:00 & 16:00–17:00, Mon 9 Nov 09:00–10:00 & 12:00–14:00
+
+**Key points:**
+- All tasks finish ≥24 hours before their deadlines
+- No shortfall — everything fits within your constraints
+- No past-due tasks were skipped
+- Respects your rules: 9:00–21:00 window, max 3h/day, no Sundays, 1–2h blocks, 30-min breaks between blocks
+
+**Assumptions & defaults used:**
+- ISO date parsing (date-only → 23:59)
+- Default estimates: quiz=2h, problem set=4h, essay=6h, project=10h
+- Timezone-aware calendar events converted to naive local time
+- Earliest-deadline-first scheduling
+
+The `.ics` file is ready to import into your calendar.

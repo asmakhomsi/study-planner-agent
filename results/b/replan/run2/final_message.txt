@@ -1,0 +1,13 @@
+I have successfully scheduled your study plan around your busy calendar and saved it to `plan.ics`.
+
+### Summary of What Was Scheduled
+- **Total Study Blocks:** 15 blocks (22 hours total) covering all four tasks (`CS586 · Quiz 4`, `MATH210 · Problem set 6`, `HIST105 · Essay draft`, and `CS586 · M3 project`) without any shortfall.
+- **Skipped Past-Due Tasks:** None.
+
+### Assumptions & Rules Followed
+- **Working Window:** 9:00 to 21:00.
+- **Daily Cap:** Maximum of 3 hours per day.
+- **Block Sizes:** 1 to 2 hours in 0.5-hour increments.
+- **Days Off:** Sundays and Fridays excluded (Friday kept free per your feedback).
+- **Buffer:** Every task is completed at least 24 hours before its deadline.
+- **Breaks:** 30-minute break maintained between study blocks.

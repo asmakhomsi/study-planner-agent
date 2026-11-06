@@ -1,0 +1,20 @@
+Your study plan has been created and saved to **plan.ics** with 18 study blocks (26 hours total).
+
+**What was scheduled:**
+- **CS586 · Quiz 4** (2h) – Oct 31 09:00–11:00
+- **MATH210 · Problem set 6** (4h) – Oct 31 11:30–12:30, Nov 2 09:00–10:00 & 12:00–14:00
+- **PHYS150 · Problem set 3** (4h) – Nov 3 10:30–12:30 & 13:00–14:00, Nov 4 09:00–10:00
+- **HIST105 · Essay draft** (6h) – Nov 4 12:00–14:00, Nov 5 10:30–12:30 & 13:00–14:00, Nov 6 09:00–10:00
+- **CS586 · M3 project** (10h) – Nov 6 10:30–12:30, Nov 9 09:00–10:00 & 12:00–14:00, Nov 10 10:30–12:30 & 13:00–14:00, Nov 11 09:00–10:00 & 12:00–13:00
+
+**Skipped (past due):**
+- PHYS150 · Lab report (due 2026-10-28)
+
+**Assumptions & defaults used:**
+- Work window 09:00–21:00, max 3 h/day, 1–2 h blocks, no Sundays, 30-min breaks, finish 24 h before deadline
+- Missing estimates: quiz=2h, problem set=4h, essay=6h, project=10h, lab report=3h
+- Duplicate MATH210 Problem set 6 kept the 4h estimate
+- Date parsing: ISO, US mm/dd/yyyy, “Nov 12 5pm”→2026-11-12 17:00, “Nov 16”→2026-11-16 23:59
+- All-day events block the full day; timezone-naive local times
+
+No shortfall—everything fits. The .ics file is ready to import into your calendar.
